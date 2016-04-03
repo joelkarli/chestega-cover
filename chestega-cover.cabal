@@ -16,8 +16,10 @@ build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
 
+hs-source-dirs: src
+
 executable chestega-cover
-  -- main-is:             
+  main-is:             src/Main.hs
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.7 && <4.8

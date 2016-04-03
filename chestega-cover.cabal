@@ -16,12 +16,11 @@ build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
 
-hs-source-dirs: src
 
 executable chestega-cover
-  main-is:             src/Main.hs
+  main-is:             Main.hs
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.7 && <4.8
-  -- hs-source-dirs:      
+  hs-source-dirs:      src
   default-language:    Haskell2010

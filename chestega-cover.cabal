@@ -21,6 +21,8 @@ executable chestega-cover
   main-is:             Main.hs
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.7 && <4.8
+  build-depends:       base >=4.7 && <4.8,
+                       bytestring,
+                       containers
   hs-source-dirs:      src
   default-language:    Haskell2010

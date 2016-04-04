@@ -3,7 +3,7 @@
 
 name:                chestega-cover
 version:             0.1.0.0
-synopsis:            Chess steganography cover generator            
+synopsis:            Chess steganography cover generator
 -- description:         
 homepage:            github.com/joelkarli/chestega-cover
 license:             BSD

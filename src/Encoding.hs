@@ -5,18 +5,17 @@ module Encoding
 
 import Data.List
 import Data.Char
+import Data.Maybe (fromMaybe)
 import qualified Data.Map as M
 import qualified Data.ByteString.Lazy as B
 import qualified Data.Word as W
 import Data.Bits ((.&.), shiftR)
 
-capitals bs = map (wordMapper) $ toInts $ slice bs
-    where wordMapper w = case M.lookup w charMapping of Just v -> v
-                                                        Nothing -> '0'
+capitals bs = map (\w -> fromMaybe '0' (M.lookup w charMapping)) $ toInts $ slice bs
 
-slice bs = concat $ map (\w -> [shiftR (firstBits w) 4, lastBits w]) $ B.unpack bs
+slice bs = concatMap (\w -> [shiftR (firstBits w) 4, lastBits w]) $ B.unpack bs
 
-toInts ws = map (fromIntegral :: W.Word8 -> Int) ws
+toInts = map (fromIntegral :: W.Word8 -> Int)
 
 firstBits w = (.&.) w 240
 

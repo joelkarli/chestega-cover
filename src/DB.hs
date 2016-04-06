@@ -1,6 +1,7 @@
 import System.Environment
 import Database.HDBC
 import Database.HDBC.Sqlite3
+import PGN
 
 main :: IO()
 main = do

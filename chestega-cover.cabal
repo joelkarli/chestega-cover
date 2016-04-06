@@ -18,7 +18,7 @@ cabal-version:       >=1.10
 
 
 executable chestega-cover
-  main-is:             Main.hs
+  main-is:             Cover.hs
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.7 && <4.8,

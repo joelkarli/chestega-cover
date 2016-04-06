@@ -24,6 +24,7 @@ createTableQuery = "CREATE TABLE games (\
                    \event VARCHAR(255),\
                    \site VARCHAR(255),\
                    \result VARCHAR(255),\
+                   \annotation TEXT,\
                    \PRIMARY KEY (white, black));"
 
 deleteGamesQuery = "DELETE FROM games;"

@@ -4,7 +4,7 @@
 name:                chestega-cover
 version:             0.1.0.0
 synopsis:            Chess steganography cover generator
-description:         Hides data in generated PGN files
+description:         Hides data in generated PGN files of authenticated games
 homepage:            https://github.com/joelkarli/chestega-cover
 license:             BSD3
 license-file:        LICENSE
@@ -24,5 +24,15 @@ executable chestega-cover
   build-depends:       base >=4.7 && <4.8,
                        bytestring,
                        containers
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+
+executable chestega-db
+  main-is:             DB.hs
+  build-depends:       base >=4.7 && <4.8,
+                       bytestring,
+                       containers,
+                       HDBC,
+                       HDBC-sqlite3
   hs-source-dirs:      src
   default-language:    Haskell2010

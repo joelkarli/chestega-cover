@@ -10,22 +10,20 @@ import Data.Maybe (fromMaybe)
 import Data.List.Split
 import Game
 
-parse rule = P.parse rule "(source)"
-
 pgnToGames text = map mappingToGame mappings
-            where mappings = case parse pgnParser text of
+            where mappings = case P.parse pgnParser "source" text of
                                 Right v -> v
-                                Left err -> [[("", "")]]
+                                Left err -> [[("White", show err)]]
 
 mappingToGame mapping = Game {white = pgnWhite, black = pgnBlack, day = pgnDay, month = pgnMonth, year = pgnYear, event = pgnEvent, site = pgnSite, result = pgnResult, annotation = pgnAnnotation}
-                    where map = M.fromList mapping
-                          pgnWhite = fromMaybe "" (M.lookup "White" map)
-                          pgnBlack = fromMaybe "" (M.lookup "Black" map)
-                          pgnDate = fromMaybe "" (M.lookup "Date" map)
-                          pgnEvent = fromMaybe "" (M.lookup "Event" map)
-                          pgnSite = fromMaybe "" (M.lookup "Site" map)
-                          pgnResult = fromMaybe "" (M.lookup "Result" map)
-                          pgnAnnotation = fromMaybe "" (M.lookup "Annotation" map)
+                    where mp = M.fromList mapping
+                          pgnWhite = fromMaybe "" (M.lookup "White" mp)
+                          pgnBlack = fromMaybe "" (M.lookup "Black" mp)
+                          pgnDate = fromMaybe "" (M.lookup "Date" mp)
+                          pgnEvent = fromMaybe "" (M.lookup "Event" mp)
+                          pgnSite = fromMaybe "" (M.lookup "Site" mp)
+                          pgnResult = fromMaybe "" (M.lookup "Result" mp)
+                          pgnAnnotation = fromMaybe "" (M.lookup "Annotation" mp)
                           pgnDay = pgnDateDay pgnDate
                           pgnMonth = pgnDateMonth pgnDate
                           pgnYear = pgnDateYear pgnDate

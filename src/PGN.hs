@@ -8,21 +8,41 @@ import Game
 
 parse rule = P.parse rule "(source)"
 
+gameParser :: P.ParsecT String () Identity [String]
+gameParser = do
+            event <- eventParser
+            site <- siteParser
+            date <- dateParser
+            white <- whiteParser
+            black <- blackParser
+            result <- resultParser
+            P.char '\n'
+            annotation <- annotationParser
+            return [event, site, date, white, black, result, annotation]
+
+
+
 pgnAttrParser :: String -> P.ParsecT String () Identity String
 pgnAttrParser s = do
                 P.char '['
                 P.string s
                 P.spaces
                 P.char '"'
-                event <- P.manyTill (P.noneOf "\"\n") (P.char '"')
-                P.char ']'
-                P.char '\n'
-                return event
+                value <- P.manyTill (P.noneOf "\"\n") (P.char '"')
+                P.string "]\n"
+                return value
 
-commentParser :: P.ParsecT String () Identity String
-commentParser = do
-            P.char '{'
-            P.manyTill (P.noneOf "}") (P.char '}')
+unimportantAttrParser :: P.ParsecT String () Identity String
+unimportantAttrParser = do
+                    P.char '['
+                    P.many P.letter
+                    P.spaces
+                    P.char '"'
+                    P.many (P.noneOf "\"\n")
+                    P.string "\"]\n"
+
+annotationParser :: P.ParsecT String () Identity String
+annotationParser = P.manyTill (P.noneOf "") (P.string "\n\n")
 
 whiteParser :: P.ParsecT String () Identity String
 whiteParser = pgnAttrParser "White"

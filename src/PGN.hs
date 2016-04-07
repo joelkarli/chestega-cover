@@ -10,12 +10,12 @@ import Data.Maybe (fromMaybe)
 import Data.List.Split
 import Game
 
-pgnToGames text = map mappingToGame mappings
-            where mappings = case P.parse pgnParser "source" text of
+pgnToGames sourcefile text = map mappingToGame mappings
+            where mappings = case P.parse pgnParser sourcefile text of
                                 Right v -> v
                                 Left err -> [[("White", show err)]]
 
-mappingToGame mapping = Game {white = pgnWhite, black = pgnBlack, day = pgnDay, month = pgnMonth, year = pgnYear, event = pgnEvent, site = pgnSite, result = pgnResult, annotation = pgnAnnotation}
+mappingToGame mapping = Game {white = pgnWhite, black = pgnBlack, date = pgnDate, event = pgnEvent, site = pgnSite, result = pgnResult, annotation = pgnAnnotation}
                     where mp = M.fromList mapping
                           pgnWhite = fromMaybe "" (M.lookup "White" mp)
                           pgnBlack = fromMaybe "" (M.lookup "Black" mp)
@@ -24,19 +24,6 @@ mappingToGame mapping = Game {white = pgnWhite, black = pgnBlack, day = pgnDay, 
                           pgnSite = fromMaybe "" (M.lookup "Site" mp)
                           pgnResult = fromMaybe "" (M.lookup "Result" mp)
                           pgnAnnotation = fromMaybe "" (M.lookup "Annotation" mp)
-                          pgnDay = pgnDateDay pgnDate
-                          pgnMonth = pgnDateMonth pgnDate
-                          pgnYear = pgnDateYear pgnDate
-
-
-pgnDateYear pgnDate = if head strYear == '?' then 0 else read strYear
-                    where strYear = head $ splitOn "." pgnDate
-
-pgnDateMonth pgnDate = if head strMonth == '?' then 0 else read strMonth
-                    where strMonth = head $ tail $ splitOn "." pgnDate
-
-pgnDateDay pgnDate = if head strDay == '?' then 0 else read strDay
-                    where strDay = last $ splitOn "." pgnDate
 
 pgnParser :: P.ParsecT String () Identity [[(String, String)]]
 pgnParser = P.many gameParser
@@ -44,7 +31,6 @@ pgnParser = P.many gameParser
 gameParser :: P.ParsecT String () Identity [(String, String)]
 gameParser = do
             mapping <- P.many attrLineParser
-            P.char '\n'
             annotation <- annotationParser
             return (("Annotation", annotation) : mapping)
 
@@ -61,8 +47,8 @@ pgnAttrParser = do
 attrLineParser :: P.ParsecT String () Identity (String, String)
 attrLineParser = do
             pair <- pgnAttrParser
-            P.char '\n'
+            P.spaces
             return pair
 
 annotationParser :: P.ParsecT String () Identity String
-annotationParser = P.manyTill P.anyChar (P.string "\n\n")
+annotationParser = P.manyTill P.anyChar (P.try (P.string "\n\n"))

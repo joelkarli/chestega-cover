@@ -19,9 +19,7 @@ initTable conn = do
 createTableQuery = "CREATE TABLE games (\
                    \white VARCHAR(255) NOT NULL,\
                    \black VARCHAR(255) NOT NULL,\
-                   \day INTEGER,\
-                   \month INTEGER,\
-                   \year INTEGER,\
+                   \date VARCHAR(255),\
                    \event VARCHAR(255),\
                    \site VARCHAR(255),\
                    \result VARCHAR(255),\

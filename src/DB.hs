@@ -13,20 +13,16 @@ main = do
     commit conn
     disconnect conn
 
-initTable conn = do
-                tables <- getTables conn
-                if "games" `elem` tables then run conn deleteGamesQuery []
-                                         else run conn createTableQuery []
+initTable conn = run conn createTableQuery []
 
 updateTable args conn = do
-                pgn <- readFile filename
+                pgn <- readFile $ head args
                 stmt <- prepare conn insertGameQuery
-                executeMany stmt (gamesToSqlList (pgnToGames filename pgn))
-                where filename = head $ tail args
+                executeMany stmt (gamesToSqlList (pgnToGames (head args) pgn))
 
 gamesToSqlList games = [[toSql (white g), toSql (black g), toSql (date g), toSql (event g), toSql (site g), toSql (result g), toSql (annotation g)] | g <- games]
 
-createTableQuery = "CREATE TABLE games (\
+createTableQuery = "CREATE TABLE IF NOT EXISTS games (\
                    \white VARCHAR(255) NOT NULL,\
                    \black VARCHAR(255) NOT NULL,\
                    \date VARCHAR(255),\
@@ -35,7 +31,5 @@ createTableQuery = "CREATE TABLE games (\
                    \result VARCHAR(255),\
                    \annotation TEXT,\
                    \PRIMARY KEY (white, black));"
-
-deleteGamesQuery = "DELETE FROM games;"
 
 insertGameQuery = "INSERT INTO games VALUES (?, ?, ?, ?, ?, ?, ?);"

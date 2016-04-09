@@ -51,4 +51,4 @@ attrLineParser = do
             return pair
 
 annotationParser :: P.ParsecT String () Identity String
-annotationParser = P.manyTill P.anyChar (P.try (P.string "\n\n"))
+annotationParser = P.manyTill P.anyChar (P.try (P.count 2 P.newline))

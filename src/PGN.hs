@@ -15,7 +15,7 @@ pgnToGames sourcefile text = map mappingToGame mappings
                                 Right v -> v
                                 Left err -> [[("White", show err)]]
 
-mappingToGame mapping = Game {white = pgnWhite, black = pgnBlack, date = pgnDate, event = pgnEvent, site = pgnSite, result = pgnResult, annotation = pgnAnnotation}
+mappingToGame mapping = Game {white = pgnWhite, black = pgnBlack, date = pgnDate, event = pgnEvent, site = pgnSite, result = pgnResult, Game.round = pgnRound, annotation = pgnAnnotation}
                     where mp = M.fromList mapping
                           pgnWhite = fromMaybe "" (M.lookup "White" mp)
                           pgnBlack = fromMaybe "" (M.lookup "Black" mp)
@@ -23,6 +23,7 @@ mappingToGame mapping = Game {white = pgnWhite, black = pgnBlack, date = pgnDate
                           pgnEvent = fromMaybe "" (M.lookup "Event" mp)
                           pgnSite = fromMaybe "" (M.lookup "Site" mp)
                           pgnResult = fromMaybe "" (M.lookup "Result" mp)
+                          pgnRound = fromMaybe "" (M.lookup "Round" mp)
                           pgnAnnotation = fromMaybe "" (M.lookup "Annotation" mp)
 
 pgnParser :: P.ParsecT String () Identity [[(String, String)]]

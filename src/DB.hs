@@ -20,16 +20,17 @@ updateTable args conn = do
                 stmt <- prepare conn insertGameQuery
                 executeMany stmt (gamesToSqlList (pgnToGames (head args) pgn))
 
-gamesToSqlList games = [[toSql (white g), toSql (black g), toSql (date g), toSql (event g), toSql (site g), toSql (result g), toSql (annotation g)] | g <- games]
+gamesToSqlList games = [[toSql (white g), toSql (black g), toSql (date g), toSql (event g), toSql (site g), toSql (result g), toSql (Game.round g), toSql (annotation g)] | g <- games]
 
 createTableQuery = "CREATE TABLE IF NOT EXISTS games (\
                    \white VARCHAR(255) NOT NULL,\
                    \black VARCHAR(255) NOT NULL,\
-                   \date VARCHAR(255),\
+                   \date VARCHAR(255) NOT NULL,\
                    \event VARCHAR(255),\
                    \site VARCHAR(255),\
                    \result VARCHAR(255),\
+                   \round VARCHAR(255) NOT NULL,\
                    \annotation TEXT,\
-                   \PRIMARY KEY (white, black));"
+                   \PRIMARY KEY (white, black, date, round));"
 
-insertGameQuery = "INSERT INTO games VALUES (?, ?, ?, ?, ?, ?, ?);"
+insertGameQuery = "INSERT INTO games VALUES (?, ?, ?, ?, ?, ?, ?, ?);"

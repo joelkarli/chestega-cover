@@ -2,7 +2,6 @@ import System.Environment
 import Data.ByteString.Lazy as B
 import Database.HDBC
 import Database.HDBC.Sqlite3
-import Data.Maybe (fromMaybe)
 import Encoding
 import Game
 

@@ -18,7 +18,7 @@ main = do
 findGamesFromCaps [] conn res = return $ Prelude.reverse res
 findGamesFromCaps (c : caps) conn res = do
                                 r <- quickQuery' conn gameStartingWithQuery [toSql (c : "%")]
-                                findGamesFromCaps caps conn ((convRow (Prelude.head r)) : res)
+                                findGamesFromCaps caps conn (convRow (Prelude.head r) : res)
                         where convRow [sqlWhite, sqlBlack, sqlDate, sqlEvent, sqlSite, sqlResult, sqlRound, sqlAnnotation] = Game {white = fromSql sqlWhite, black = fromSql sqlBlack, date = fromSql sqlDate, event = fromSql sqlEvent, site = fromSql sqlSite, result = fromSql sqlResult, Game.round = fromSql sqlRound, annotation = fromSql sqlAnnotation}
 
 gameStartingWithQuery = "SELECT white, black, date, event, site, result, round, annotation FROM games \

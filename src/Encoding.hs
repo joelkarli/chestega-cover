@@ -20,7 +20,7 @@ capitals bs = map (\w -> fromMaybe '0' (M.lookup w charMapping)) $ toInts $ slic
 slice :: B.ByteString -> [W.Word8]
 slice bs = concatMap (\w -> [shiftR (firstBits w) 4, lastBits w]) $ B.unpack bs
 
--- |Converts an array of Word8 to an array of Int
+-- |Converts a list of Word8 to a list of Int
 toInts :: [W.Word8] -> [Int]
 toInts = map (fromIntegral :: W.Word8 -> Int)
 

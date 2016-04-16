@@ -13,8 +13,12 @@ data Game = Game { white :: String
                  , annotation :: String
                  } deriving (Show)
 
+-- |Returns a pgn attribute with attribute name k and attribute value v
+toPgnAttrLine :: [Char] -> [Char] -> [Char]
 toPgnAttrLine k v = '[' : k ++ " \"" ++ v ++ "\"]\n"
 
+-- |Returns a pgn representation of the game
+toPgn :: Game -> [Char]
 toPgn g = toPgnAttrLine "Event" (event g) ++
           toPgnAttrLine "Site" (site g) ++
           toPgnAttrLine "Date" (date g) ++

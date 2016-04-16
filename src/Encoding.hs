@@ -16,11 +16,20 @@ capitals :: B.ByteString -> String
 capitals bs = map (\w -> fromMaybe '0' (M.lookup w charMapping)) $ toInts $ slice bs
 
 uncapitals :: String -> B.ByteString
-uncapitals caps = B.pack (toWords (map (\c -> fromMaybe 16 (M.lookup c intMapping)) caps))
+uncapitals caps = unslice (toWords (map (\c -> fromMaybe 16 (M.lookup c intMapping)) caps))
 
 -- |Slices a ByteString into pieces of 4 Bits
 slice :: B.ByteString -> [W.Word8]
 slice bs = concatMap (\w -> [shiftR (firstBits w) 4, lastBits w]) $ B.unpack bs
+
+unslice :: [W.Word8] -> B.ByteString
+unslice ws = B.pack (zipWith (unify) (everySnd ws) (everySnd' ws))
+
+everySnd [] = []
+everySnd (x:xs) = x : (everySnd (tail xs)) 
+
+everySnd' [] = []
+everySnd' (x:xs) = (head xs) : (everySnd (tail xs))
 
 -- |Converts a list of Word8 to a list of Int
 toInts :: [W.Word8] -> [Int]

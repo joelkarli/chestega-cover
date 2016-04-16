@@ -1,5 +1,6 @@
 module PGN
 ( pgnToGames
+, pgnToWhiteCaps
 ) where
 
 import Data.Char
@@ -10,6 +11,13 @@ import Data.Maybe (fromMaybe)
 import Data.List.Split
 import Game
 
+-- |Parses the String content of a pgn file and returns the first characters of the white players
+pgnToWhiteCaps :: P.SourceName -> String -> String
+pgnToWhiteCaps sourcefile text = map (head . snd) (filter (\m -> fst m == "White") mappings)
+                    where mappings = case P.parse pgnParser sourcefile text of
+                                            Right v -> concat v
+                                            Left err -> [("Error", show err)]
+
 -- |Parses the String content of a pgn file and returns a list of the games in it
 pgnToGames :: P.SourceName -> String -> [Game]
 pgnToGames sourcefile text = map mappingToGame mappings
@@ -18,7 +26,7 @@ pgnToGames sourcefile text = map mappingToGame mappings
                                 Left err -> [[("White", show err)]]
 
 -- |Converts a mapping (attribute name to attribute value) to a Game
-mappingToGame :: [([Char], [Char])] -> Game
+mappingToGame :: [(String, String)] -> Game
 mappingToGame mapping = Game {white = pgnWhite, black = pgnBlack, date = pgnDate, event = pgnEvent, site = pgnSite, result = pgnResult, Game.round = pgnRound, annotation = pgnAnnotation}
                     where mp = M.fromList mapping
                           pgnWhite = fromMaybe "?" (M.lookup "White" mp)

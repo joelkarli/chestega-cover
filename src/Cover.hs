@@ -16,7 +16,7 @@ main = do
     disconnect conn
 
 -- |Takes a String with all uppercase letters and finds a random game for every letter in the String
-findGamesFromCaps :: IConnection conn => [Char] -> conn -> [Game] -> IO [Game]
+findGamesFromCaps :: IConnection conn => String -> conn -> [Game] -> IO [Game]
 findGamesFromCaps [] conn res = return $ Prelude.reverse res
 findGamesFromCaps (c : caps) conn res = do
                                 r <- quickQuery' conn gameStartingWithQuery [toSql (c : "%")]
@@ -24,7 +24,7 @@ findGamesFromCaps (c : caps) conn res = do
                         where convRow [qryWhite, qryBlack, qryDate, qryEvent, qrySite, qryResult, qryRound, qryAnnotation] = Game {white = qryWhite, black = qryBlack, date = qryDate, event = qryEvent, site = qrySite, result = qryResult, Game.round = qryRound, annotation = qryAnnotation}
 
 -- |A SQL query which returns a random game
-gameStartingWithQuery :: [Char]
+gameStartingWithQuery :: String
 gameStartingWithQuery = "SELECT white, black, date, event, site, result, round, annotation FROM games \
                         \WHERE white LIKE ? \
                         \ORDER BY RANDOM() \

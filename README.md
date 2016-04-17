@@ -38,3 +38,17 @@ To recover the hidden file, use chestega-uncover.
     chestega-uncover input.txt.gpg.pgn output.txt.gpg
 
 This will create the file output.txt.gpg with the original content of input.txt.gpg.
+
+You can decrypt the output.txt.gpg with gpg.
+
+    gpg output.txt.gpg
+
+###Building your own database
+
+Instead of using the database I provide on my github user page, you can also build or own database.
+First, you need some .pgn files of authenticated games. To import the games in your .pgn files into
+a database, use chestega-db.
+
+    chestega-db games.pgn data.db
+
+This will create an Sqlite3 database called data.db and insert all the games in games.pgn.

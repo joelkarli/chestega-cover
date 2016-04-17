@@ -18,3 +18,23 @@ You can find them in .cabal-sandbox/bin.
 
 Next, you should download the latest chestega database from my [github user page](http://joelkarli.github.com).
 An alternative is to build your own database using chestega-db.
+
+##Usage
+
+You can use chestega-cover to hide a file in a generated .pgn file. Note, that you should not use this
+to hide plain text, you should encrypt the file you want to hide using gpg or another tool.
+
+You can encrypt a file using gpg like so.
+
+    gpg -c input.txt
+
+Then, to hide a file, use chestega-cover.
+
+    chestega-cover input.txt.gpg chestega.db
+
+This will generate a file called input.txt.gpg.pgn. The input.txt.gpg file is hidden in there.
+To recover the hidden file, use chestega-uncover.
+
+    chestega-uncover input.txt.gpg.pgn output.txt.gpg
+
+This will create the file output.txt.gpg with the original content of input.txt.gpg.

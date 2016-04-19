@@ -1,7 +1,4 @@
-module PGN
-( pgnToGames
-, pgnToWhiteCaps
-) where
+module PGN where
 
 import Data.Char
 import qualified Text.Parsec as P

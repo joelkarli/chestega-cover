@@ -4,7 +4,7 @@ import Database.HDBC.Sqlite3
 import PGN
 import Game
 
-main :: IO()
+main :: IO ()
 main = do
     args <- getArgs
     conn <- connectSqlite3 $ last args

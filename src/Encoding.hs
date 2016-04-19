@@ -1,7 +1,4 @@
-module Encoding
-( capitals
-, uncapitals
-) where
+module Encoding where
 
 import Data.List
 import Data.Char
@@ -26,7 +23,7 @@ slice bs = concatMap (\w -> [shiftR (firstBits w) 4, lastBits w]) $ B.unpack bs
 -- |Reverses the slice function. Unifies all the 4 Bit Words to 8 Bit Words
 unslice :: [W.Word8] -> [W.Word8]
 unslice [] = []
-unslice (w:ws) = (unify w (head ws)) : (unslice (tail ws))
+unslice (w:ws) = unify w (head ws) : unslice (tail ws)
 
 -- |Converts a list of Word8 to a list of Int
 toInts :: [W.Word8] -> [Int]
@@ -43,7 +40,7 @@ firstBits w = (.&.) w 240
 lastBits w = (.&.) w 15
 
 -- |Unifies two 4 Bit Words to an 8 Bit Word
-unify x y = (.|.) (shiftL x 4) y
+unify x = (.|.) (shiftL x 4)
 
 -- |Maps the integers from 0 to 15 to chars A to P
 charMapping :: M.Map Int Char

@@ -1,7 +1,4 @@
-module Game
-( Game(..)
-, toPgn
-) where
+module Game where
 
 data Game = Game { white :: String
                  , black :: String

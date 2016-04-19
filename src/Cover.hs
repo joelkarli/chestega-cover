@@ -6,7 +6,7 @@ import Database.HDBC.Sqlite3
 import Encoding
 import Game
 
-main :: IO()
+main :: IO ()
 main = do
     args <- getArgs
     bytes <- B.readFile $ Prelude.head args

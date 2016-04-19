@@ -3,7 +3,7 @@ import Data.ByteString.Lazy as B
 import PGN
 import Encoding
 
-main :: IO()
+main :: IO ()
 main = do
     args <- getArgs
     f <- Prelude.readFile $ Prelude.head args

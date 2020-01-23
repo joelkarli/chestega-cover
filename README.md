@@ -1,11 +1,11 @@
-#chestega-cover
+# chestega-cover
 
 A chess steganography cover generator.
 
 Basically, this generates a .pgn (portable game notation) file
 of authenticated games and hides data in said file.
 
-##Installation
+## Installation
 
 I advise you to install chestega-cover in a sandbox.
 
@@ -16,10 +16,16 @@ This will initiate a sandbox and install it there. Three executables
 will be installed: chestega-cover, chestega-uncover and chestega-db.
 You can find them in .cabal-sandbox/bin.
 
-Next, you should download the latest chestega database from my [github user page](http://joelkarli.github.com).
-An alternative is to build your own database using chestega-db.
+### Building your own database
 
-##Usage
+Next, you should build a database of chess games. You need some .pgn files of authenticated games.
+To import the games in your .pgn files into a database, use chestega-db.
+
+    chestega-db games.pgn data.db
+
+This will create an Sqlite3 database called data.db and insert all the games in games.pgn.
+
+## Usage
 
 You can use chestega-cover to hide a file in a generated .pgn file. Note, that you should not use this
 to hide plain text, you should encrypt the file you want to hide using gpg or another tool.
@@ -42,13 +48,3 @@ This will create the file output.txt.gpg with the original content of input.txt.
 You can decrypt the output.txt.gpg with gpg.
 
     gpg output.txt.gpg
-
-###Building your own database
-
-Instead of using the database I provide on my github user page, you can also build or own database.
-First, you need some .pgn files of authenticated games. To import the games in your .pgn files into
-a database, use chestega-db.
-
-    chestega-db games.pgn data.db
-
-This will create an Sqlite3 database called data.db and insert all the games in games.pgn.
